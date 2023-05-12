@@ -1,0 +1,29 @@
+#main_container{
+  width: fit-content;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+#main_container p{
+  background-color: transparent;
+  color: rgb(8, 8, 8);
+  margin-top: 0px;
+  padding-top: 5%;
+  margin-bottom: 3%;
+  font-size: 25px;
+}
+#main_container button{
+  font-size: 150%;
+  color: black;
+  background-color: antiquewhite;
+  border-color: antiquewhite;
+  outline-color: antiquewhite;
+
+}
+.App{
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+
+}
