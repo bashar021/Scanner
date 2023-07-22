@@ -107,6 +107,7 @@ function App() {
           height: 350,
           facingMode: "environment",
           delay:100,
+          deviceId:{exact:d}
          
         },
       };
@@ -115,8 +116,8 @@ function App() {
       navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
           vd = document.querySelector('video')
-          // vd.srcObject = stream;
-          // vd.play()
+          vd.srcObject = stream;
+          vd.play()
         })
         .catch((error) => {
           console.error('Error accessing the camera:', error);
