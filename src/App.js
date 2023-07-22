@@ -69,10 +69,9 @@ function App() {
 
     const constraints = {
       video: {
-        width: 350,
-        height: 350,
+        width: 200,
+        height: 200,
         // facingMode: "environment",
-        delay: 100,
         deviceId: { exact: d }
 
       },
@@ -105,7 +104,7 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div> <QrReader  onError={function(){console.log(alert("try again "))}} onScan={handleScan}  /></div> : <span></span>
+          scanner !== false ? <div> <QrReader width ={200} height={200}  onError={function(){console.log(alert("try again "))}} onScan={handleScan}  /></div> : <span></span>
         }
 
         {
