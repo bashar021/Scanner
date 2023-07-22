@@ -91,7 +91,7 @@ function App() {
       console.log(qrReaderRef.current)
       console.log(selectedDeviceId)
       navigator.mediaDevices
-        .getUserMedia({ video: { deviceId: { exact: selectedDeviceId } } })
+        .getUserMedia({ video: { facingMode: { exact: "environment"} } })
         .then((stream) => {
           qrReaderRef.current.srcObject = stream;
         })
@@ -103,7 +103,7 @@ function App() {
   return (
     <div className="App" >
       {/* el => { qrReaderRef.current = el; */}
-      <div id='main_container' ref={qrReaderRef}>
+      <div id='main_container' >
         {devices.length > 1 && (
           <select onChange={handleCameraChange} value={selectedDeviceId}>
             {devices.map((device) => (
@@ -116,7 +116,7 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <QrReader  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}><QrReader  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
         {
           showdata !== '' ? <p>{showdata}</p> : <span></span>
