@@ -11,13 +11,13 @@ function App() {
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
   const qrReaderRef = useRef(null);
   useEffect(() => {
-     // Get the list of available media devices (cameras)
-      navigator.mediaDevices.enumerateDevices().then((devices) => {
+    // Get the list of available media devices (cameras)
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
       const cameras = devices.filter((device) => device.kind === 'videoinput');
       setDevices(cameras);
       // If there are multiple cameras, set the first camera as the default selection
       // if (cameras.length > 0) {
-        setSelectedDeviceId(cameras[0].deviceId);
+      setSelectedDeviceId(cameras[0].deviceId);
       // }
     });
 
@@ -98,51 +98,58 @@ function App() {
   };
 
   const handleStartScan = (d) => {
-    var vd  ;
+    var vd;
     console.log(d)
-     
-      const constraints = {
-        video: {
-          width: 350,
-          height: 350,
-          facingMode: "environment",
-          delay:100,
-          deviceId:{exact:d}
-         
-        },
-      };
-      // deviceId:{exact:d}
-      // { video: {  deviceId: { exact: d} } }
-      navigator.mediaDevices.getUserMedia(constraints)
-        .then((stream) => {
-          vd = document.querySelector('video')
-          vd.srcObject = stream;
-          vd.play()
-        })
-        .catch((error) => {
-          console.error('Error accessing the camera:', error);
-        });
+
+    const constraints = {
+      video: {
+        width: 350,
+        height: 350,
+        facingMode: "environment",
+        delay: 100,
+        deviceId: { exact: d }
+
+      },
+    };
+    // deviceId:{exact:d}
+    // { video: {  deviceId: { exact: d} } }
+
+
+    useEffect(() => {
+      if (d) {
+        navigator.mediaDevices.getUserMedia(constraints)
+          .then((stream) => {
+            vd = document.querySelector('video')
+            vd.srcObject = stream;
+            vd.play()
+          })
+          .catch((error) => {
+            console.error('Error accessing the camera:', error);
+          });
+
+      }
+    }, [d]);
   }
-  
+
 
   return (
     <div className="App" >
       {/* el => { qrReaderRef.current = el; */}
       <div id='main_container' >
 
-          <select onChange={function(event){ handleStartScan(event.target.value);setSelectedDeviceId(event.target.value);}} value={selectedDeviceId}>
-            {devices.map((device) => (
-              <option key={device.deviceId} value={device.deviceId}>
-                {device.label || `Camera ${devices.indexOf(device) + 1}`}
-              </option>
-            ))}
-            <option value="bashar">a</option>
-          </select>
+        <select onChange={function (event) { handleStartScan(event.target.value); }} value={selectedDeviceId}>
+          {devices.map((device) => (
+            <option key={device.deviceId} value={device.deviceId}>
+              {device.label || `Camera ${devices.indexOf(device) + 1}`}
+            </option>
+          ))}
+          <option value="bashar">a</option>
+        </select>
 
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}> <QrReader   delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
 
         {
