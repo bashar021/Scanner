@@ -98,11 +98,10 @@ function App() {
   };
   const handleStartScan = (d) => {
     var vd = document.querySelector('video')
-    // console.log(vd)
-
-    if (qrReaderRef.current && selectedDeviceId) {
-      console.log(qrReaderRef.current)
-      console.log(selectedDeviceId)
+    console.log(d)
+    // if (qrReaderRef.current && selectedDeviceId) {
+      // console.log(qrReaderRef.current)
+      // console.log(selectedDeviceId)
       navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: d} } })
         .then((stream) => {
           // qrReaderRef.current.srcObject = stream;
@@ -111,19 +110,20 @@ function App() {
         .catch((error) => {
           console.error('Error accessing the camera:', error);
         });
-    }
+    // }
   };
   return (
     <div className="App" >
       {/* el => { qrReaderRef.current = el; */}
       <div id='main_container' >
 
-          <select onChange={handleCameraChange} value={selectedDeviceId}>
+          <select onChange={function(event){ handleStartScan(event.target.value);setSelectedDeviceId(event.target.value);}} value={selectedDeviceId}>
             {devices.map((device) => (
               <option key={device.deviceId} value={device.deviceId}>
                 {device.label || `Camera ${devices.indexOf(device) + 1}`}
               </option>
             ))}
+            {/* <option value="bashar">a</option> */}
           </select>
 
         {
