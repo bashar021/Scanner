@@ -9,30 +9,15 @@ function App() {
   const [showdata, set_show_data] = useState('')
   const [devices, setDevices] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
-  const qrReaderRef = useRef(null);
   useEffect(() => {
     // Get the list of available media devices (cameras)
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       const cameras = devices.filter((device) => device.kind === 'videoinput');
       setDevices(cameras);
-      // If there are multiple cameras, set the first camera as the default selection
-      // if (cameras.length > 0) {
       setSelectedDeviceId(cameras[0].deviceId);
-      // }
     });
 
   }, []);
-  // const getCameraSelection = async function () {
-  //   const devices = await navigator.mediaDevices.enumerateDevices();
-  //   const videoDevices = devices.filter(device => device.kind === 'videoinput');
-  //   // console.log(videoDevices)
-  //   videoDevices.map(videoDevice => {
-  //     console.log(videoDevice.deviceId, videoDevice.label)
-  //     // return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`
-  //   });
-  //   // options()
-  //   // cameraOptions.innerHTML = options.join('');
-  // }
   async function Postdata(url, postdata) {
 
     let data = await fetch(url, {
@@ -58,12 +43,11 @@ function App() {
   };
   const handleScan = (data) => {
     if (data) {
+      // console.log(data)
       setQrValue(data.text)
       setscanner(false)
       verify()
-
     }
-
   };
   async function verify() {
     console.log(qrValue)
@@ -72,25 +56,7 @@ function App() {
     set_show_data(data.mssg)
 
   }
-  // function checkcamera() {
-  //   if (qrReaderRef.current) {
-  //     // Get the underlying video element created by QrReader
-  //     const videoElement = qrReaderRef.current.video;
-  //     if (videoElement) {
-  //       console.log('mobile')
-  //       // Use getUserMedia to set facingMode to 'environment' for the back camera
-  //       // navigator.mediaDevices({ video: { facingMode: { exact: 'environment' } } })
-  //       navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-  //         // navigator.mediaDevices.getUserMedia({video: true})
-  //         .then((stream) => {
-  //           videoElement.srcObject = stream;
-  //         })
-  //         .catch((error) => {
-  //           console.error('Error accessing the camera:', error);
-  //         });
-  //     }
-  //   }
-  // }
+  
   const handleCameraChange = (event) => {
     setSelectedDeviceId(event.target.value);
     console.log(event.target.value)
@@ -111,24 +77,17 @@ function App() {
 
       },
     };
-    // vd.constraints = constraints
-    // deviceId:{exact:d}
+    console.log(vd)
     // { video: {  deviceId: { exact: d} } }
         navigator.mediaDevices.getUserMedia(constraints)
-          .then((stream) => {
-            vd = document.querySelector('video')
-            vd.srcObject = stream;
-            vd.play()
-          })
-          .catch((error) => {
-            console.error('Error accessing the camera:', error);
-          });
-
-      
-    
+          // .then((stream) => {
+          //   vd = document.querySelector('video')
+          //   vd.srcObject = stream;
+          // })
+          // .catch((error) => {
+          //   console.error('Error accessing the camera:', error);
+          // });
   }
-
-
   return (
     <div className="App" >
       {/* el => { qrReaderRef.current = el; */}
@@ -146,7 +105,7 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100} constraints={{width:350}}  onError={function(){console.log('eror')}} onScan={handleScan}  /></div> : <span></span>
+          scanner !== false ? <div> <QrReader  onError={function(){console.log(alert("try again "))}} onScan={handleScan}  /></div> : <span></span>
         }
 
         {
@@ -154,7 +113,7 @@ function App() {
 
         }
         <br />
-        <button onClick={function () {handleStartScan(selectedDeviceId); setscanner(true); set_show_data("") }}>Scan Ticket</button>
+        <button onClick={function () { setscanner(true); set_show_data("");handleStartScan(selectedDeviceId); }}>Scan Ticket</button>
       </div>
 
     </div>
