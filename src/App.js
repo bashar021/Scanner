@@ -140,13 +140,13 @@ function App() {
               {device.label || `Camera ${devices.indexOf(device) + 1}`}
             </option>
           ))}
-          <option value="bashar">a</option>
+          {/* <option value="bashar">a</option> */}
         </select>
 
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100}  onError={function(){console.log('eror')}} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100} constraints={{width:350}}  onError={function(){console.log('eror')}} onScan={handleScan}  /></div> : <span></span>
         }
 
         {
