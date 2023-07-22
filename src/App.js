@@ -113,10 +113,6 @@ function App() {
     };
     // deviceId:{exact:d}
     // { video: {  deviceId: { exact: d} } }
-
-
-    useEffect(() => {
-      if (d) {
         navigator.mediaDevices.getUserMedia(constraints)
           .then((stream) => {
             vd = document.querySelector('video')
@@ -127,8 +123,8 @@ function App() {
             console.error('Error accessing the camera:', error);
           });
 
-      }
-    }, [d]);
+      
+    
   }
 
 
@@ -137,7 +133,7 @@ function App() {
       {/* el => { qrReaderRef.current = el; */}
       <div id='main_container' >
 
-        <select onChange={function (event) { handleStartScan(event.target.value); }} value={selectedDeviceId}>
+        <select onChange={function (event) {handleCameraChange(event) }} value={selectedDeviceId}>
           {devices.map((device) => (
             <option key={device.deviceId} value={device.deviceId}>
               {device.label || `Camera ${devices.indexOf(device) + 1}`}
@@ -149,7 +145,7 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100} constraints={{ deviceId: selectedDeviceId}} onError={function(){console.log('eror')}} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
 
         {
