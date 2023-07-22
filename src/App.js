@@ -100,8 +100,6 @@ function App() {
   const handleStartScan = (d) => {
     var vd  ;
     console.log(d)
-    
-    // if (qrReaderRef.current && selectedDeviceId) {
       // console.log(qrReaderRef.current)
       // console.log(selectedDeviceId)
 
@@ -109,7 +107,7 @@ function App() {
         .then((stream) => {
           vd = document.querySelector('video')
           // qrReaderRef.current.srcObject = stream;
-          vd.facingMode = 'environment'
+          vd.constraints = {facingMode:'environment'}
           vd.srcObject = stream;
 
           vd.play()
@@ -137,7 +135,7 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}> <QrReader constraints={{facingMode: 'environment' }}  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}> <QrReader   delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
 
         {
