@@ -8,22 +8,31 @@ function App() {
   const [scanner, setscanner] = useState(false)
   const [showdata, set_show_data] = useState('')
   const [devices, setDevices] = useState([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
+  const [selectedDeviceId, setSelectedDeviceId] = useState('');
   const qrReaderRef = useRef(null);
   useEffect(() => {
      // Get the list of available media devices (cameras)
-     navigator.mediaDevices.enumerateDevices().then((devices) => {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
       const cameras = devices.filter((device) => device.kind === 'videoinput');
       setDevices(cameras);
-
       // If there are multiple cameras, set the first camera as the default selection
-      if (cameras.length > 0) {
+      // if (cameras.length > 0) {
         setSelectedDeviceId(cameras[0].deviceId);
-      }
+      // }
     });
 
   }, []);
-
+  // const getCameraSelection = async function () {
+  //   const devices = await navigator.mediaDevices.enumerateDevices();
+  //   const videoDevices = devices.filter(device => device.kind === 'videoinput');
+  //   // console.log(videoDevices)
+  //   videoDevices.map(videoDevice => {
+  //     console.log(videoDevice.deviceId, videoDevice.label)
+  //     // return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`
+  //   });
+  //   // options()
+  //   // cameraOptions.innerHTML = options.join('');
+  // }
   async function Postdata(url, postdata) {
 
     let data = await fetch(url, {
@@ -84,27 +93,26 @@ function App() {
   // }
   const handleCameraChange = (event) => {
     setSelectedDeviceId(event.target.value);
+    console.log(event.target.value)
   };
   const handleStartScan = () => {
-    if (qrReaderRef.current && selectedDeviceId) {
-      // Use selected camera's deviceId in getUserMedia to set the desired camera
-      console.log(qrReaderRef.current)
+    // if (qrReaderRef.current && selectedDeviceId) {
+      // console.log(qrReaderRef.current)
       console.log(selectedDeviceId)
-      navigator.mediaDevices
-        .getUserMedia({ video: { facingMode: { exact: "environment"} } })
+      navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: selectedDeviceId} } })
         .then((stream) => {
           qrReaderRef.current.srcObject = stream;
         })
         .catch((error) => {
           console.error('Error accessing the camera:', error);
         });
-    }
+    // }
   };
   return (
     <div className="App" >
       {/* el => { qrReaderRef.current = el; */}
       <div id='main_container' >
-        {devices.length > 1 && (
+
           <select onChange={handleCameraChange} value={selectedDeviceId}>
             {devices.map((device) => (
               <option key={device.deviceId} value={device.deviceId}>
@@ -112,18 +120,17 @@ function App() {
               </option>
             ))}
           </select>
-        )}
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}><QrReader  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}><QrReader delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
         {
           showdata !== '' ? <p>{showdata}</p> : <span></span>
 
         }
         <br />
-        <button onClick={function () { handleStartScan();setscanner(true); set_show_data("") }}>Scan Ticket</button>
+        <button onClick={function () { handleStartScan(); setscanner(true); set_show_data("") }}>Scan Ticket</button>
       </div>
 
     </div>
