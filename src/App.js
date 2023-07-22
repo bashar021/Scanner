@@ -94,16 +94,16 @@ function App() {
   const handleCameraChange = (event) => {
     setSelectedDeviceId(event.target.value);
     console.log(event.target.value)
-    handleStartScan();
+    handleStartScan(event.target.value);
   };
-  const handleStartScan = () => {
+  const handleStartScan = (d) => {
     var vd = document.querySelector('video')
     // console.log(vd)
 
     if (qrReaderRef.current && selectedDeviceId) {
       console.log(qrReaderRef.current)
       console.log(selectedDeviceId)
-      navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: selectedDeviceId} } })
+      navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: d} } })
         .then((stream) => {
           // qrReaderRef.current.srcObject = stream;
           vd.srcObject = stream;
