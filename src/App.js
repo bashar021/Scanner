@@ -115,7 +115,7 @@ function App() {
       navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
           vd = document.querySelector('video')
-          vd.srcObject = stream;
+          // vd.srcObject = stream;
           // vd.play()
         })
         .catch((error) => {
