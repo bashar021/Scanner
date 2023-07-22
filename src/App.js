@@ -61,7 +61,6 @@ function App() {
     setSelectedDeviceId(event.target.value);
     console.log(event.target.value)
     handleStartScan(event.target.value);
-    handleStartScan(event.target.value);
   };
 
   const handleStartScan = (d) => {
@@ -70,8 +69,6 @@ function App() {
 
     const constraints = {
       video: {
-        width: 200,
-        height: 200,
         // facingMode: "environment",
         deviceId: { exact: d }
 
@@ -94,7 +91,7 @@ function App() {
       {/* el => { qrReaderRef.current = el; */}
       <div id='main_container' >
 
-        <select onChange={function (event) {handleCameraChange(event) }} value={selectedDeviceId}>
+        <select onChange={function (event) {handleCameraChange(event) }}>
           {devices.map((device) => (
             <option key={device.deviceId} value={device.deviceId}>
               {device.label || `Camera ${devices.indexOf(device) + 1}`}
@@ -105,7 +102,7 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div> <QrReader width ={200} height={200}  onError={function(){console.log(alert("try again "))}} onScan={handleScan}  /></div> : <span></span>
+          scanner !== false ? <div> <QrReader width ={350} height={350}  onError={function(){console.log(alert("try again "))}} onScan={handleScan}  /></div> : <span></span>
         }
 
         {
@@ -113,7 +110,7 @@ function App() {
 
         }
         <br />
-        <button onClick={function () { setscanner(true); set_show_data("");handleStartScan(selectedDeviceId); }}>Scan Ticket</button>
+        <button onClick={function () { setscanner(true); set_show_data(""); }}>Scan Ticket</button>
       </div>
 
     </div>
