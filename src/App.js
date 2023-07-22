@@ -98,7 +98,7 @@ function App() {
   };
 
   const handleStartScan = (d) => {
-    var vd;
+    var vd = document.querySelector('video');
     console.log(d)
 
     const constraints = {
@@ -111,6 +111,7 @@ function App() {
 
       },
     };
+    // vd.constraints = constraints
     // deviceId:{exact:d}
     // { video: {  deviceId: { exact: d} } }
         navigator.mediaDevices.getUserMedia(constraints)
@@ -153,7 +154,7 @@ function App() {
 
         }
         <br />
-        <button onClick={function () { setscanner(true); set_show_data("") }}>Scan Ticket</button>
+        <button onClick={function () {handleStartScan(selectedDeviceId); setscanner(true); set_show_data("") }}>Scan Ticket</button>
       </div>
 
     </div>
