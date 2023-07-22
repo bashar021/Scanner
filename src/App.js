@@ -97,15 +97,18 @@ function App() {
     handleStartScan(event.target.value);
   };
   const handleStartScan = (d) => {
-    var vd = document.querySelector('video')
+    var vd  ;
     console.log(d)
     // if (qrReaderRef.current && selectedDeviceId) {
       // console.log(qrReaderRef.current)
       // console.log(selectedDeviceId)
+
       navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: d} } })
         .then((stream) => {
+          vd = document.querySelector('video')
           // qrReaderRef.current.srcObject = stream;
           vd.srcObject = stream;
+          vd.play()
         })
         .catch((error) => {
           console.error('Error accessing the camera:', error);
@@ -123,7 +126,7 @@ function App() {
                 {device.label || `Camera ${devices.indexOf(device) + 1}`}
               </option>
             ))}
-            {/* <option value="bashar">a</option> */}
+            <option value="bashar">a</option>
           </select>
 
         {
