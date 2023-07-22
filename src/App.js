@@ -71,7 +71,7 @@ function App() {
       video: {
         width: 350,
         height: 350,
-        facingMode: "environment",
+        // facingMode: "environment",
         delay: 100,
         deviceId: { exact: d }
 
@@ -80,13 +80,13 @@ function App() {
     console.log(vd)
     // { video: {  deviceId: { exact: d} } }
         navigator.mediaDevices.getUserMedia(constraints)
-          // .then((stream) => {
-          //   vd = document.querySelector('video')
-          //   vd.srcObject = stream;
-          // })
-          // .catch((error) => {
-          //   console.error('Error accessing the camera:', error);
-          // });
+          .then((stream) => {
+            vd = document.querySelector('video')
+            vd.srcObject = stream;
+          })
+          .catch((error) => {
+            console.error('Error accessing the camera:', error);
+          });
   }
   return (
     <div className="App" >
