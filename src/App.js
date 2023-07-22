@@ -7,9 +7,21 @@ function App() {
   const [qrValue, setQrValue] = useState('');
   const [scanner, setscanner] = useState(false)
   const [showdata, set_show_data] = useState('')
+  const [devices, setDevices] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   const qrReaderRef = useRef(null);
   useEffect(() => {
-    
+     // Get the list of available media devices (cameras)
+     navigator.mediaDevices.enumerateDevices().then((devices) => {
+      const cameras = devices.filter((device) => device.kind === 'videoinput');
+      setDevices(cameras);
+
+      // If there are multiple cameras, set the first camera as the default selection
+      if (cameras.length > 0) {
+        setSelectedDeviceId(cameras[0].deviceId);
+      }
+    });
+
   }, []);
 
   async function Postdata(url, postdata) {
@@ -40,50 +52,78 @@ function App() {
       setQrValue(data.text)
       setscanner(false)
       verify()
-      
+
     }
 
   };
   async function verify() {
     console.log(qrValue)
-    var data  = await Postdata(`${process.env.REACT_APP_VERIFY_URL}place/verify`,{url:qrValue})
+    var data = await Postdata(`${process.env.REACT_APP_VERIFY_URL}place/verify`, { url: qrValue })
     console.log(data)
     set_show_data(data.mssg)
 
   }
-  function checkcamera(){
-    if (qrReaderRef.current) {
-      // Get the underlying video element created by QrReader
-      const videoElement = qrReaderRef.current.video;
-      if (videoElement) {
-        console.log('mobile')
-        // Use getUserMedia to set facingMode to 'environment' for the back camera
-        // navigator.mediaDevices({ video: { facingMode: { exact: 'environment' } } })
-         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        // navigator.mediaDevices.getUserMedia({video: true})
-          .then((stream) => {
-            videoElement.srcObject = stream;
-          })
-          .catch((error) => {
-            console.error('Error accessing the camera:', error);
-          });
-      }
+  // function checkcamera() {
+  //   if (qrReaderRef.current) {
+  //     // Get the underlying video element created by QrReader
+  //     const videoElement = qrReaderRef.current.video;
+  //     if (videoElement) {
+  //       console.log('mobile')
+  //       // Use getUserMedia to set facingMode to 'environment' for the back camera
+  //       // navigator.mediaDevices({ video: { facingMode: { exact: 'environment' } } })
+  //       navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+  //         // navigator.mediaDevices.getUserMedia({video: true})
+  //         .then((stream) => {
+  //           videoElement.srcObject = stream;
+  //         })
+  //         .catch((error) => {
+  //           console.error('Error accessing the camera:', error);
+  //         });
+  //     }
+  //   }
+  // }
+  const handleCameraChange = (event) => {
+    setSelectedDeviceId(event.target.value);
+  };
+  const handleStartScan = () => {
+    if (qrReaderRef.current && selectedDeviceId) {
+      // Use selected camera's deviceId in getUserMedia to set the desired camera
+      console.log(qrReaderRef.current)
+      console.log(selectedDeviceId)
+      navigator.mediaDevices
+        .getUserMedia({ video: { deviceId: { exact: selectedDeviceId } } })
+        .then((stream) => {
+          qrReaderRef.current.srcObject = stream;
+        })
+        .catch((error) => {
+          console.error('Error accessing the camera:', error);
+        });
     }
-  }
+  };
   return (
-    <div className="App">
-      <div id='main_container'>
-      
+    <div className="App" >
+      {/* el => { qrReaderRef.current = el; */}
+      <div id='main_container' ref={qrReaderRef}>
+        {devices.length > 1 && (
+          <select onChange={handleCameraChange} value={selectedDeviceId}>
+            {devices.map((device) => (
+              <option key={device.deviceId} value={device.deviceId}>
+                {device.label || `Camera ${devices.indexOf(device) + 1}`}
+              </option>
+            ))}
+          </select>
+        )}
+
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <QrReader ref={checkcamera()} delay={100} onError={handleError}  onScan={handleScan}  style={{ width: 350 ,height:350}}/> : <span></span>
+          scanner !== false ? <QrReader  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /> : <span></span>
         }
         {
-          showdata !== '' ?<p>{showdata}</p>:<span></span>
+          showdata !== '' ? <p>{showdata}</p> : <span></span>
 
         }
         <br />
-        <button onClick={function () { setscanner(true) ;set_show_data("")}}>Scan Ticket</button>
+        <button onClick={function () { handleStartScan();setscanner(true); set_show_data("") }}>Scan Ticket</button>
       </div>
 
     </div>
