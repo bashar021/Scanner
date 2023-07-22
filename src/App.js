@@ -100,16 +100,20 @@ function App() {
   const handleStartScan = (d) => {
     var vd  ;
     console.log(d)
-      // console.log(qrReaderRef.current)
-      // console.log(selectedDeviceId)
-
-      navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: d} } })
+     
+      const constraints = {
+        video: {
+          width: 350,
+          height: 350,
+          facingMode: "environment",
+          delay:100
+        },
+      };
+      // { video: {  deviceId: { exact: d} } }
+      navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
           vd = document.querySelector('video')
-          // qrReaderRef.current.srcObject = stream;
-          vd.constraints = {facingMode:'environment'}
           vd.srcObject = stream;
-
           vd.play()
         })
         .catch((error) => {
