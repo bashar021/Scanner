@@ -1,11 +1,16 @@
 
 import './App.css';
-import { useState } from 'react';
+// import { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import QrReader from 'react-qr-scanner'
 function App() {
   const [qrValue, setQrValue] = useState('');
   const [scanner, setscanner] = useState(false)
   const [showdata, set_show_data] = useState('')
+  const qrReaderRef = useRef(null);
+  useEffect(() => {
+    
+  }, []);
 
   async function Postdata(url, postdata) {
 
@@ -46,13 +51,32 @@ function App() {
     set_show_data(data.mssg)
 
   }
+  function checkcamera(){
+    if (qrReaderRef.current) {
+      // Get the underlying video element created by QrReader
+      const videoElement = qrReaderRef.current.video;
+      if (videoElement) {
+        console.log('mobile')
+        // Use getUserMedia to set facingMode to 'environment' for the back camera
+        // navigator.mediaDevices({ video: { facingMode: { exact: 'environment' } } })
+         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        // navigator.mediaDevices.getUserMedia({video: true})
+          .then((stream) => {
+            videoElement.srcObject = stream;
+          })
+          .catch((error) => {
+            console.error('Error accessing the camera:', error);
+          });
+      }
+    }
+  }
   return (
     <div className="App">
       <div id='main_container'>
       
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <QrReader delay={100} onError={handleError}  onScan={handleScan} style={{ width: 350 ,height:350}}/> : <span></span>
+          scanner !== false ? <QrReader ref={checkcamera()} delay={100} onError={handleError}  onScan={handleScan}  style={{ width: 350 ,height:350}}/> : <span></span>
         }
         {
           showdata !== '' ?<p>{showdata}</p>:<span></span>
