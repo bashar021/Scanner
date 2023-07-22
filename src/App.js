@@ -61,6 +61,7 @@ function App() {
     setSelectedDeviceId(event.target.value);
     console.log(event.target.value)
     handleStartScan(event.target.value);
+    handleStartScan(event.target.value);
   };
 
   const handleStartScan = (d) => {
@@ -86,6 +87,7 @@ function App() {
           .catch((error) => {
             console.error('Error accessing the camera:', error);
           });
+    
   }
   return (
     <div className="App" >
@@ -98,7 +100,6 @@ function App() {
               {device.label || `Camera ${devices.indexOf(device) + 1}`}
             </option>
           ))}
-          {/* <option value="bashar">a</option> */}
         </select>
 
 
