@@ -94,18 +94,22 @@ function App() {
   const handleCameraChange = (event) => {
     setSelectedDeviceId(event.target.value);
     console.log(event.target.value)
+    handleStartScan();
   };
   const handleStartScan = () => {
+    var vd = document.querySelector('video')
+    // console.log(vd)
+
     // if (qrReaderRef.current && selectedDeviceId) {
       // console.log(qrReaderRef.current)
-      console.log(selectedDeviceId)
-      navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: selectedDeviceId} } })
-        .then((stream) => {
-          qrReaderRef.current.srcObject = stream;
-        })
-        .catch((error) => {
-          console.error('Error accessing the camera:', error);
-        });
+      // console.log(selectedDeviceId)
+      // navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: selectedDeviceId} } })
+      //   .then((stream) => {
+      //     qrReaderRef.current.srcObject = stream;
+      //   })
+      //   .catch((error) => {
+      //     console.error('Error accessing the camera:', error);
+      //   });
     // }
   };
   return (
@@ -123,14 +127,14 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}><QrReader delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}><QrReader  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
         {
           showdata !== '' ? <p>{showdata}</p> : <span></span>
 
         }
         <br />
-        <button onClick={function () { handleStartScan(); setscanner(true); set_show_data("") }}>Scan Ticket</button>
+        <button onClick={function () { setscanner(true); set_show_data("") }}>Scan Ticket</button>
       </div>
 
     </div>
