@@ -96,26 +96,30 @@ function App() {
     console.log(event.target.value)
     handleStartScan(event.target.value);
   };
+
   const handleStartScan = (d) => {
-    var vd = document.querySelector('video') ;
+    var vd  ;
     console.log(d)
-    vd.facingMode = 'environment'
+    
     // if (qrReaderRef.current && selectedDeviceId) {
       // console.log(qrReaderRef.current)
       // console.log(selectedDeviceId)
 
-      // navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: d} } })
-      //   .then((stream) => {
-      //     vd = document.querySelector('video')
-      //     // qrReaderRef.current.srcObject = stream;
-      //     vd.srcObject = stream;
-      //     vd.play()
-      //   })
-      //   .catch((error) => {
-      //     console.error('Error accessing the camera:', error);
-      //   });
-    // }
-  };
+      navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: d} } })
+        .then((stream) => {
+          vd = document.querySelector('video')
+          // qrReaderRef.current.srcObject = stream;
+          vd.facingMode = 'environment'
+          vd.srcObject = stream;
+
+          vd.play()
+        })
+        .catch((error) => {
+          console.error('Error accessing the camera:', error);
+        });
+  }
+  
+
   return (
     <div className="App" >
       {/* el => { qrReaderRef.current = el; */}
@@ -130,10 +134,12 @@ function App() {
             <option value="bashar">a</option>
           </select>
 
+
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}><QrReader  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}> <QrReader constraints={{facingMode: 'environment' }}  delay={100} onError={handleError} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
+
         {
           showdata !== '' ? <p>{showdata}</p> : <span></span>
 
