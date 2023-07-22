@@ -146,7 +146,7 @@ function App() {
 
         {
           // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100} constraints={{ deviceId: selectedDeviceId}} onError={function(){console.log('eror')}} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
+          scanner !== false ? <div ref={qrReaderRef}> <QrReader delay={100}  onError={function(){console.log('eror')}} onScan={handleScan} style={{ width: 350, height: 350 }} /></div> : <span></span>
         }
 
         {
