@@ -100,17 +100,18 @@ function App() {
     var vd = document.querySelector('video')
     // console.log(vd)
 
-    // if (qrReaderRef.current && selectedDeviceId) {
-      // console.log(qrReaderRef.current)
-      // console.log(selectedDeviceId)
-      // navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: selectedDeviceId} } })
-      //   .then((stream) => {
-      //     qrReaderRef.current.srcObject = stream;
-      //   })
-      //   .catch((error) => {
-      //     console.error('Error accessing the camera:', error);
-      //   });
-    // }
+    if (qrReaderRef.current && selectedDeviceId) {
+      console.log(qrReaderRef.current)
+      console.log(selectedDeviceId)
+      navigator.mediaDevices.getUserMedia({ video: {  deviceId: { exact: selectedDeviceId} } })
+        .then((stream) => {
+          // qrReaderRef.current.srcObject = stream;
+          vd.srcObject = stream;
+        })
+        .catch((error) => {
+          console.error('Error accessing the camera:', error);
+        });
+    }
   };
   return (
     <div className="App" >
