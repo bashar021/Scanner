@@ -22,13 +22,15 @@ export default function Appp() {
     };
     const handleStartScan = (selectedDeviceId) => {
         const v = document.querySelector('video');
+        const qr = document.querySelector('QrReader')
+        // console.log(qr)
        
-        if (selectedDeviceId && cameras.length > 1) {
+        if (selectedDeviceId && cameras.length > 0) {
             console.log(cameras.length)
             const constraints = {
                 video: {
-                    // facingMode: "environment",
-                    deviceId: selectedDeviceId
+                    facingMode: {exact:"environment"},
+                    // deviceId: selectedDeviceId
                 },
             };
             navigator.mediaDevices.getUserMedia(constraints)
