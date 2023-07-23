@@ -27,15 +27,14 @@ export default function Appp() {
             console.log(cameras.length)
             const constraints = {
                 video: {
-                    facingMode: {exact:"environment"},
+                    facingMode: "environment",
                     deviceId: selectedDeviceId
                 },
             };
-            // { video: {  deviceId: { exact: d} } }
             navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
                     v.srcObject = stream;
-                    // v.openImageDialog();
+                    v.openImageDialog();
                 })
                 .catch((error) => {
                     console.error('Error accessing the camera:', error);
@@ -64,12 +63,9 @@ export default function Appp() {
 
     // Fetch the list of cameras when the component mounts
     useEffect(() => {
-        // console.log(selectedCamera)
         const getCameras = async () => {
             const cameras = await enumerateCameras();
-            // console.log(cameras)
             // if (cameras.length > 0) {
-                // Set the first available camera as the default selectedCamera
                 setSelectedCamera(cameras[0].deviceId);
             // }
         };
@@ -102,7 +98,7 @@ export default function Appp() {
                 </div>:<p></p>
             }
 
-            <button onClick={function () { setScan(false);  console.log(selectedCamera); }}>Scan Ticket</button>
+            <button onClick={function () {handleStartScan(selectedCamera); setScan(false);  console.log(selectedCamera); }}>Scan Ticket</button>
         </>
     )
 }
