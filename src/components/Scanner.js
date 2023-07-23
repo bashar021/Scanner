@@ -22,11 +22,14 @@ export default function Appp() {
     const handleStartScan = (selectedDeviceId) => {
        
         const v = document.querySelector('video');
-        console.log(v)
+        v.facingMode = {exact:"environment"}
+        // v.constraints.facingMode = {exact:"environment"}
+        v.constraints = {facingMode :{exact:'environment'}}
+        // console.log(v)
         if (selectedDeviceId) {
             const constraints = {
             video: {
-                facingMode:{exact :"environment"} ,
+                facingMode:{exact:"environment"} ,
                 deviceId: selectedDeviceId 
             },
             };
@@ -53,6 +56,7 @@ export default function Appp() {
         try {
             const devices = await navigator.mediaDevices.enumerateDevices();
             const cameras = devices.filter((device) => device.kind === 'videoinput');
+             setCameras(cameras)
             return cameras;
         } catch (error) {
             console.error('Error enumerating cameras:', error);
@@ -62,17 +66,17 @@ export default function Appp() {
 
     // Fetch the list of cameras when the component mounts
     useEffect(() => {
+        console.log(selectedCamera)
         const getCameras = async () => {
             const cameras = await enumerateCameras();
             console.log(cameras)
-            setCameras(cameras)
             if (cameras.length > 0) {
                 // Set the first available camera as the default selectedCamera
                 setSelectedCamera(cameras[0].deviceId);
             }
         };
         getCameras();
-    }, []);
+    }, [0]);
 
     return (
         <>  
@@ -95,7 +99,8 @@ export default function Appp() {
                     delay={300}
                     onError={handleError}
                     onScan={handleScan}
-                    constraints = {{facingMode :{exact:"environment"}}}
+                    // constraints = {cameras > 1 ?{facingMode :'environment'} :{facingMode :{exact:'user'}}}
+                    // constraints = {{facingMode :'environment'}}
                     // facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
                     style={{ width: '50%'}}
                 />
