@@ -20,16 +20,12 @@ export default function Appp() {
         console.error('QR scan error:', error);
     };
     const handleStartScan = (selectedDeviceId) => {
-       
+       console.log(selectedCamera)
         const v = document.querySelector('video');
-        v.facingMode = {exact:"environment"}
-        // v.constraints.facingMode = {exact:"environment"}
-        v.constraints = {facingMode :{exact:'environment'}}
-        // console.log(v)
         if (selectedDeviceId) {
             const constraints = {
             video: {
-                facingMode:{exact:"environment"} ,
+                facingMode:"environment",
                 deviceId: selectedDeviceId 
             },
             };
@@ -66,10 +62,10 @@ export default function Appp() {
 
     // Fetch the list of cameras when the component mounts
     useEffect(() => {
-        console.log(selectedCamera)
+        // console.log(selectedCamera)
         const getCameras = async () => {
             const cameras = await enumerateCameras();
-            console.log(cameras)
+            // console.log(cameras)
             if (cameras.length > 0) {
                 // Set the first available camera as the default selectedCamera
                 setSelectedCamera(cameras[0].deviceId);
@@ -100,7 +96,7 @@ export default function Appp() {
                     onError={handleError}
                     onScan={handleScan}
                     // constraints = {cameras > 1 ?{facingMode :'environment'} :{facingMode :{exact:'user'}}}
-                    // constraints = {{facingMode :'environment'}}
+                    constraints = {{facingMode :{ exact: 'environment', deviceId: selectedCamera }}}
                     // facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
                     style={{ width: '50%'}}
                 />
