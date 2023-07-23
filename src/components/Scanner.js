@@ -22,7 +22,9 @@ export default function Appp() {
     };
     const handleStartScan = (selectedDeviceId) => {
         const v = document.querySelector('video');
-        if (selectedDeviceId && cameras > 1) {
+       
+        if (selectedDeviceId && cameras.length > 1) {
+            console.log(cameras.length)
             const constraints = {
                 video: {
                     facingMode: {exact:"environment"},
@@ -100,7 +102,7 @@ export default function Appp() {
                 </div>:<p></p>
             }
 
-            <button onClick={function () { setScan(false); handleStartScan(selectedCamera); console.log(selectedCamera); }}>Scan Ticket</button>
+            <button onClick={function () { setScan(false);  console.log(selectedCamera); }}>Scan Ticket</button>
         </>
     )
 }
