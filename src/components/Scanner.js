@@ -95,6 +95,7 @@ export default function Appp() {
                     delay={300}
                     onError={handleError}
                     onScan={handleScan}
+                    constraints = {{facingMode :{exact:"environment"}}}
                     // facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
                     style={{ width: '50%'}}
                 />
