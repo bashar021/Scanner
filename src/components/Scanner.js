@@ -27,7 +27,7 @@ export default function Appp() {
             console.log(cameras.length)
             const constraints = {
                 video: {
-                    facingMode: "environment",
+                    // facingMode: "environment",
                     deviceId: selectedDeviceId
                 },
             };
