@@ -22,10 +22,10 @@ export default function Appp() {
     };
     const handleStartScan = (selectedDeviceId) => {
         const v = document.querySelector('video');
-        if (selectedDeviceId) {
+        if (selectedDeviceId && cameras > 1) {
             const constraints = {
                 video: {
-                    facingMode: "environment",
+                    facingMode: {exact:"environment"},
                     deviceId: selectedDeviceId
                 },
             };
@@ -94,7 +94,7 @@ export default function Appp() {
                     <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ width: '50%' }}
                         // constraints = {cameras > 1 ?{facingMode :'environment'} :{facingMode :{exact:'user'}}}
                         // constraints={{ facingMode:  {exact:'user'} }}
-                    facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
+                    // facingmode={selectedCamera ? { exact: 'environment' } : 'environment'}
                     />
                     {/* <p>{qrcodevalue}</p> */}
                 </div>:<p></p>
