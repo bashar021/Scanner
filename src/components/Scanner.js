@@ -93,8 +93,8 @@ export default function Appp() {
                 scan == false ? <div>
                     <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ width: '50%' }}
                         // constraints = {cameras > 1 ?{facingMode :'environment'} :{facingMode :{exact:'user'}}}
-                        // constraints={{ facingMode: { exact: 'environment'} }}
-                    // facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
+                        // constraints={{ facingMode:  {exact:'user'} }}
+                    facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
                     />
                     {/* <p>{qrcodevalue}</p> */}
                 </div>:<p></p>
