@@ -19,12 +19,12 @@ export default function Appp() {
     const handleError = (error) => {
         console.error('QR scan error:', error);
     };
-    const handleStartScan = (d) => {
+    const handleStartScan = (selectedDeviceId) => {
         if (qrReaderRef.current && selectedDeviceId) {
             const constraints = {
             video: {
                 // facingMode: "environment",
-                deviceId: { exact: d }
+                deviceId: { exact: selectedDeviceId }
             },
             };
             // { video: {  deviceId: { exact: d} } }
