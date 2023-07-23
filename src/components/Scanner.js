@@ -22,11 +22,7 @@ export default function Appp() {
     };
     const handleStartScan = (selectedDeviceId) => {
         const v = document.querySelector('video');
-        const qr = document.querySelector('QrReader')
-        // console.log(qr)
-       
         if (selectedDeviceId && cameras.length > 0) {
-            console.log(cameras.length)
             const constraints = {
                 video: {
                     facingMode: {exact:"environment"},
@@ -36,7 +32,6 @@ export default function Appp() {
             navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
                     v.srcObject = stream;
-                    v.openImageDialog();
                 })
                 .catch((error) => {
                     console.error('Error accessing the camera:', error);
@@ -65,6 +60,10 @@ export default function Appp() {
 
     // Fetch the list of cameras when the component mounts
     useEffect(() => {
+        // navigator?.mediaDevices?.getUserMedia({ video: { facingMode: 'environment' } }).then(() => {
+        //     console.log('success');
+        // }).catch((err) => console.error(err));
+
         const getCameras = async () => {
             const cameras = await enumerateCameras();
             // if (cameras.length > 0) {
