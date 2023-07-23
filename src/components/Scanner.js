@@ -27,14 +27,14 @@ export default function Appp() {
             const constraints = {
             video: {
                 facingMode:{exact :"environment"} ,
-                deviceId: { exact: selectedDeviceId }
+                deviceId: selectedDeviceId 
             },
             };
             // { video: {  deviceId: { exact: d} } }
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
                     v.srcObject = stream;
-                    // qrReaderRef.current.openImageDialog(); 
+                    v.openImageDialog(); 
                 })
                 .catch((error) => {
                     console.error('Error accessing the camera:', error);
@@ -96,7 +96,6 @@ export default function Appp() {
                     onError={handleError}
                     onScan={handleScan}
                     // facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
-                    facingmode={'environment'}
                     style={{ width: '50%'}}
                 />
                 {/* <p>{qrcodevalue}</p> */}
