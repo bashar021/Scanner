@@ -4,6 +4,7 @@ import './App.css';
 import React, { useRef, useState, useEffect } from 'react';
 import QrReader from 'react-qr-scanner'
 import Scanner from './components/Scanner.js'
+import Scanner2 from './components/Scanner2.js';
 function App() {
   const [qrValue, setQrValue] = useState('');
   const [scanner, setscanner] = useState(false)
@@ -115,7 +116,8 @@ function App() {
     //   </div>
 
     // </div>
-    <Scanner></Scanner>
+    // <Scanner></Scanner>
+    <Scanner2></Scanner2>
   );
 }
 
