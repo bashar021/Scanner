@@ -3,6 +3,7 @@ import './App.css';
 // import { useState } from 'react';
 import React, { useRef, useState, useEffect } from 'react';
 import QrReader from 'react-qr-scanner'
+import Scanner from './components/Scanner.js'
 function App() {
   const [qrValue, setQrValue] = useState('');
   const [scanner, setscanner] = useState(false)
@@ -87,33 +88,34 @@ function App() {
     
   }
   return (
-    <div className="App" >
-      {/* el => { qrReaderRef.current = el; */}
-      <div id='main_container' >
+    // <div className="App" >
+    //   {/* el => { qrReaderRef.current = el; */}
+    //   <div id='main_container' >
 
-        <select onChange={function (event) {handleCameraChange(event) }}>
-          {devices.map((device) => (
-            <option key={device.deviceId} value={device.deviceId}>
-              {device.label || `Camera ${devices.indexOf(device) + 1}`}
-            </option>
-          ))}
-        </select>
+    //     <select onChange={function (event) {handleCameraChange(event) }}>
+    //       {devices.map((device) => (
+    //         <option key={device.deviceId} value={device.deviceId}>
+    //           {device.label || `Camera ${devices.indexOf(device) + 1}`}
+    //         </option>
+    //       ))}
+    //     </select>
 
 
-        {
-          // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
-          scanner !== false ? <div> <QrReader width ={350} height={350}  onError={function(){console.log(alert("try again "))}} onScan={handleScan}  /></div> : <span></span>
-        }
+    //     {
+    //       // scanner !== false ? <QrCodeReader delay={100} width={350} height={350} onScan={handleRead} onError={handleError} /> : <span></span>
+    //       scanner !== false ? <div> <QrReader width ={350} height={350}  onError={function(){console.log(alert("try again "))}} onScan={handleScan}  /></div> : <span></span>
+    //     }
 
-        {
-          showdata !== '' ? <p>{showdata}</p> : <span></span>
+    //     {
+    //       showdata !== '' ? <p>{showdata}</p> : <span></span>
 
-        }
-        <br />
-        <button onClick={function () { setscanner(true); set_show_data(""); }}>Scan Ticket</button>
-      </div>
+    //     }
+    //     <br />
+    //     <button onClick={function () { setscanner(true); set_show_data(""); }}>Scan Ticket</button>
+    //   </div>
 
-    </div>
+    // </div>
+    <Scanner></Scanner>
   );
 }
 
