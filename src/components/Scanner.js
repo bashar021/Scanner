@@ -11,9 +11,7 @@ export default function Appp() {
 
     const handleScan = (data) => {
         if (data) {
-            // Do something with the scanned data, e.g., display it in the UI
             console.log('Scanned data:', data.text);
-            // setqrcodevalue(data.ext);
             alert(data.text)
         }
     };
@@ -21,11 +19,32 @@ export default function Appp() {
     const handleError = (error) => {
         console.error('QR scan error:', error);
     };
-
+    const handleStartScan = (d) => {
+        if (qrReaderRef.current && selectedDeviceId) {
+            const constraints = {
+            video: {
+                // facingMode: "environment",
+                deviceId: { exact: d }
+            },
+            };
+            // { video: {  deviceId: { exact: d} } }
+                navigator.mediaDevices.getUserMedia(constraints)
+                .then((stream) => {
+                    qrReaderRef.current.srcObject = stream;
+                    // qrReaderRef.current.openImageDialog(); 
+                })
+                .catch((error) => {
+                    console.error('Error accessing the camera:', error);
+                });
+        }
+        
+    }
     const handleCameraChange = (event) => {
         const selectedDeviceId = event.target.value;
         setSelectedCamera(selectedDeviceId);
+        handleStartScan(selectedDeviceId)
     };
+   
 
     const enumerateCameras = async () => {
         try {
