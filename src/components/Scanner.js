@@ -20,17 +20,20 @@ export default function Appp() {
         console.error('QR scan error:', error);
     };
     const handleStartScan = (selectedDeviceId) => {
-        if (qrReaderRef.current && selectedDeviceId) {
+       
+        const v = document.querySelector('video');
+        console.log(v)
+        if (selectedDeviceId) {
             const constraints = {
             video: {
-                // facingMode: "environment",
+                facingMode:{exact :"environment"} ,
                 deviceId: { exact: selectedDeviceId }
             },
             };
             // { video: {  deviceId: { exact: d} } }
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
-                    qrReaderRef.current.srcObject = stream;
+                    v.srcObject = stream;
                     // qrReaderRef.current.openImageDialog(); 
                 })
                 .catch((error) => {
@@ -81,18 +84,19 @@ export default function Appp() {
                         </option>
                        
                     ))}
-                     {/* <option value="bashar">bashar</option> */}
+                     <option value="bashar">bashar</option>
                 </select>
 
             </div>
             <div>
                
                 <QrReader
-                    ref={qrReaderRef}
+                   
                     delay={300}
                     onError={handleError}
                     onScan={handleScan}
-                    facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
+                    // facingMode={selectedCamera ? { exact: 'environment', deviceId: selectedCamera } : 'environment'}
+                    facingmode={'environment'}
                     style={{ width: '50%'}}
                 />
                 {/* <p>{qrcodevalue}</p> */}
