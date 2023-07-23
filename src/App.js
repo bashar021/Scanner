@@ -12,7 +12,7 @@ function App() {
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
   useEffect(() => {
     // Get the list of available media devices (cameras)
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
       const cameras = devices.filter((device) => device.kind === 'videoinput');
       setDevices(cameras);
       setSelectedDeviceId(cameras[0].deviceId);

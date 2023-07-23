@@ -13,7 +13,7 @@ export default function Appp() {
         if (data) {
             // Do something with the scanned data, e.g., display it in the UI
             console.log('Scanned data:', data.text);
-            setqrcodevalue(data.ext);
+            // setqrcodevalue(data.ext);
             alert(data.text)
         }
     };
@@ -42,6 +42,8 @@ export default function Appp() {
     useEffect(() => {
         const getCameras = async () => {
             const cameras = await enumerateCameras();
+            console.log(cameras)
+            setCameras(cameras)
             if (cameras.length > 0) {
                 // Set the first available camera as the default selectedCamera
                 setSelectedCamera(cameras[0].deviceId);
@@ -51,15 +53,21 @@ export default function Appp() {
     }, []);
 
     return (
-        <>
+        <>  
             <div>
                 <select value={selectedCamera} onChange={handleCameraChange}>
                     {cameras.map((camera) => (
                         <option key={camera.deviceId} value={camera.deviceId}>
                             {camera.label}
                         </option>
+                       
                     ))}
+                     {/* <option value="bashar">bashar</option> */}
                 </select>
+
+            </div>
+            <div>
+               
                 <QrReader
                     ref={qrReaderRef}
                     delay={300}
